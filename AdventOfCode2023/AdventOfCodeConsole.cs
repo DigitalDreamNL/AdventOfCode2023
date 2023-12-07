@@ -36,6 +36,11 @@ public static class AdventOfCodeConsole
         WriteLine($"[green]{answer}[/]");
     }
 
+    public static void WriteAnswer(int answer)
+    {
+        AdventOfCodeConsole.WriteAnswer(answer.ToString());
+    }
+
     public static void WriteLine(string line)
     {
         AnsiConsole.MarkupLine(line);

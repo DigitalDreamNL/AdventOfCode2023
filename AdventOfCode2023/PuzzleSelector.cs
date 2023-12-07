@@ -4,7 +4,7 @@ namespace AdventOfCode2023;
 
 public static class PuzzleSelector
 {
-    private static readonly List<int> Days = new() { 1, 4 };
+    private static readonly List<int> Days = new() { 1, 4, 5, 7 };
 
     public static Puzzle SelectPuzzle()
     {
@@ -20,6 +20,8 @@ public static class PuzzleSelector
         {
             1 => new Day1.Day1(),
             4 => new Day4.Day4(),
+            5 => new Day5.Day5(),
+            7 => new Day7.Day7(),
             _ => throw new Exception($"Puzzle for day {day} not found")
         };
     }

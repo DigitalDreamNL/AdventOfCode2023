@@ -5,7 +5,7 @@ public class Day4 : Puzzle
     protected override int Day => 4;
     
     private readonly Dictionary<int, int> _cards = new();
-    
+
     public override async Task Solve()
     {
         AdventOfCodeConsole.WritePuzzleHeader(4);
@@ -29,19 +29,29 @@ public class Day4 : Puzzle
     public override async Task SolvePartTwo()
     {
         var input = ReadInput();
+        await HandleScratchCards(input);
+
+        AdventOfCodeConsole.WritePuzzlePartTwoAnswer();
+        var totalNumberOfScratchCards = _cards.Select(c => c.Value).Sum().ToString();
+        AdventOfCodeConsole.WriteAnswer(totalNumberOfScratchCards);
+    }
+
+    private async Task HandleScratchCards(IAsyncEnumerable<string> input)
+    {
         var cardNumber = 0;
         await foreach (var cardInput in input)
         {
             cardNumber++;
-            IncrementNumberOfCards(cardNumber);
-            var card = new ScratchCard(cardInput);
-            var numberOfCards = _cards[cardNumber];
-            var matches = card.CalculateMatches();
-            IncrementNextCards(cardNumber, numberOfCards, matches);
+            HandleScratchCard(cardNumber, cardInput);
         }
-        
-        AdventOfCodeConsole.WritePuzzlePartTwoAnswer();
-        AdventOfCodeConsole.WriteAnswer(_cards.Select(c => c.Value).Sum().ToString());
+    }
+
+    private void HandleScratchCard(int cardNumber, string cardInput)
+    {
+        IncrementNumberOfCards(cardNumber); // Add one original card
+        var numberOfCards = _cards[cardNumber];
+        var matches = new ScratchCard(cardInput).CalculateMatches();
+        IncrementNextCards(cardNumber, numberOfCards, matches);
     }
 
     private void IncrementNextCards(int cardNumber, int numberOfCards, int matches)
@@ -55,6 +65,6 @@ public class Day4 : Puzzle
     private void IncrementNumberOfCards(int cardNumber, int? numberOfCardsToAdd = null)
     {
         _cards.TryAdd(cardNumber, 0);
-        _cards[cardNumber] = _cards[cardNumber] + (numberOfCardsToAdd ?? 1);
+        _cards[cardNumber] += (numberOfCardsToAdd ?? 1);
     }
 }

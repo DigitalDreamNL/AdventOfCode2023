@@ -2,25 +2,33 @@ namespace AdventOfCode2023.Day4;
 
 public class ScratchCard
 {
-    
     public List<int> MyNumbers { get; } = new();
     public List<int> WinningNumbers { get; } = new();
 
     public ScratchCard(string input)
     {
-        var parts = input.Replace("  ", " ").Split(": ");
-        var numbers = parts[1].Split(" | ");
-        
+        var parts = GetNumbersPart(input);
+        var numbers = SplitNumberParts(parts);
         ParseNumbers(WinningNumbers, numbers[0]);
         ParseNumbers(MyNumbers, numbers[1]);
     }
 
-    private static void ParseNumbers(ICollection<int> list, string numbers)
+    private static string GetNumbersPart(string input)
     {
-        var winningNumbers = numbers.Split(" ");
-        foreach (var winningNumber in winningNumbers)
+        return input.Replace("  ", " ").Split(": ")[1];
+    }
+
+    private static string[] SplitNumberParts(string parts)
+    {
+        return parts.Split(" | ");
+    }
+
+    private static void ParseNumbers(ICollection<int> list, string numbersString)
+    {
+        var numbers = numbersString.Split(" ");
+        foreach (var number in numbers)
         {
-            list.Add(int.Parse(winningNumber));
+            list.Add(int.Parse(number));
         }
     }
 
